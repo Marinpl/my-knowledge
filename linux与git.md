@@ -51,44 +51,46 @@ $ rm -r  / rm -r xxx
 
 git仓库拥有四个区域（工作区、暂存区、本地仓库区[HEAD指向最新放入仓库的版本]、远程仓库区）
 
-上传命令包括 add、commit 、push、commit -a	
+上传命令 : add、commit 、push、commit -a	
 
-下载命令包括 pull、checkout、fetch
+下载命令 : pull、checkout、fetch
 
-#### 1.新建git项目
+合并命令 : merge、rebase
+
+#### 1.新建git项目 [init,clone]
 
 ```bash
-#本地创建或新建一个目录，初始化git库
+# 本地创建或新建一个目录，初始化git库
 git init or git init [project-name]
 
-#从远程仓库下载
+# 从远程仓库下载
 git clone [url]
 ```
 
-#### 2.查询配置
+#### 2.查询配置 [config]
 
 ```bash
-#显示当前配置
+# 显示当前配置
 git config --list
 
-#编辑git配置文件(.gitconfig)
+# 编辑git配置文件(.gitconfig)
 git config [--global]
 
-#设置提交代码的用户信息
+# 设置提交代码的用户信息
 git config [--global] user.name "[name]"
 git config [--global] user.email "[email address]"
 ```
 
-#### 3.添加、删除文件
+#### 3.添加、删除文件 [add,rm,mv]
 
 ```bash
-#添加指定文件到暂存区
+# 添加指定文件到暂存区
 git add [file1] [file2] ...
 
-#添加指定目录到暂存区，包括子目录
+# 添加指定目录到暂存区，包括子目录
 git add [dir]
 
-#添加当前目录的所有文件到暂存区
+# 添加当前目录的所有文件到暂存区
 git add .
 
 # 添加每个变化前，都会要求确认
@@ -102,48 +104,86 @@ git rm [file1] [file2] ... 【or】git rm --cached [file]
 git mv [file-original] [file-renamed]
 ```
 
-#### 4.代码提交
+#### 4.代码本地提交 [commit]
 
 ```bash
-#提交暂存区文件【或】指定文件至仓库区
+# 提交暂存区文件【或】指定文件至仓库区
 git commit -m[message] 【or】 git commit [file1] [file2] ... -m[message] 
 
-#提交工作区自上次commit之后的变化，直接到仓库区
+# 提交工作区自上次commit之后的变化，直接到仓库区
 git commit -a
 
-#提交时显示所有diff信息
+# 提交时显示所有diff信息
 git commit -v
 
 # 重做上一次commit，并包括指定文件的新变化
 git commit --amend [file1] [file2] ...
 
-# 将本地的分支版本上传到远程并合并(如果本地分支名与远程分支名相同，则可以省略冒号)
+```
+
+#### 5.分支(新建，删除，切换，合并) [branch,checkout]
+
+```bash
+# 列出分支(远程分支、本地和远程分支)
+git branch (-r)/(-a)
+
+# 新建一个分支，但依然停留在当前分支【或】切换到该分支【或】指向指定commit
+git branch [branch-name] 【or】 git checkout -b [branch] 【or】 git branch [branch] [commit]
+
+# 删除分支【或】删除远程分支
+git branch -d [branch-name] 【or】git branch -dr [remote/branch]
+
+# 切换到指定分支，并更新工作区
+git checkout [branch-name]
+
+# 切换到上一个分支
+git checkout -
+
+# 合并指定分支到当前分支【或】选择一个commit，合并进当前分支
+git merge [branch] 【or】 git cherry-pick [commit]
+git rebase [startpoint] [endpoint] --onto [branchName]
+```
+
+#### 6.远程同步 [fetch,remote,push]
+
+```bash
+# 下载远程仓库的所有变动
+$ git fetch [remote]
+
+# 显示所有远程仓库【或】某个仓库信息
+$ git remote -v 【or】git remote show [remote]
+
+# 新建远程仓库
+$ git remote add [shortName] [url]
+
+# 获取远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+# 推送到远程仓库
 # 强制推送 在push后使用 --force 参数
 # 删除主机的分支 在push后使用使用 --delete 参数
-git push <远程主机名> <本地分支名>:<远程分支名>
+# 如果本地分支名与远程分支名相同，则可以只写一个，省去冒号
+$ git push [remote] [local-branch]:[remote-branch]
 
 ```
 
-#### 5.分支(新建，删除，切换，合并)
+#### 7. 标签tag [tag]
 
 ```bash
-#列出分支(远程分支、本地和远程分支)
-git branch (-r)/(-a)
+# 列出所有tag【或】新建tag在指定commit
+$ git tag 【or】git tag [tag-name] [commit]
 
-#新建一个分支，但依然停留在当前分支【或】切换到该分支【或】指向指定commit
-git branch [branch-name] 【or】 git checkout -b [branch] 【or】 git branch [branch] [commit]
+# 删除本地tag
+$ git tag -d [tag]
 
-#删除分支【或】删除远程分支
-git branch -d [branch-name] 【or】git branch -dr [remote/branch]
+# 删除远程tag
+$ git push origin :refs/tags/[tag-name]
 
-#切换到指定分支，并更新工作区
-git checkout [branch-name]
+# 提交指定tag【或】提交所有tag
+$ git push [remote] [tag] 【or】git push [remote] --tags
 
-#切换到上一个分支
-git checkout -
+# 新建分支，指向tag
+$ git checkout -b [branch] [tag]
 
-#合并指定分支到当前分支【或】选择一个commit，合并进当前分支
-git merge [branch] 【or】 git cherry-pick [commit]
-git rebase [startpoint] [endpoint] --onto [branchName]
 ```
 
