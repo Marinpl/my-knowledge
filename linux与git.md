@@ -162,7 +162,7 @@ $ git rebase [startpoint] [endpoint] --onto [branchName]
 $ git branch --merged 【or】git branch --no--merged
 ```
 
-#### 6.远程同步本地
+#### 6.远程同步
 
 [fetch,remote,push,pull = fetch + merge]
 
