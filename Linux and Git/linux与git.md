@@ -198,6 +198,7 @@ $ git push [remote] [local-branch]:[remote-branch]
 ```bash
 # 列出所有tag【或】新建tag在指定commit
 $ git tag 【or】git tag [tag-name] [commit]
+#ex: git tag v1.0 [commit]
 
 # 删除本地tag
 $ git tag -d [tag]
@@ -225,9 +226,21 @@ $ git reset HEAD^[~1]
 $ git revert HEAD^^
 ```
 
+#### 9. 其他操作
+
+[移动提交记录,]
+
+```bash
+# 在当前head指针下复制其他分支提交
+$ git cherry-pick [other-branch-name] [other-branch-name]...
+
+# 当不知道提交记录的hash值时，使用交互式 rebase -i 
+$ git rebase -i HEAD~3
+```
 
 
-#### 9.实际操作中的问题
+
+#### 10.实际操作中的问题
 
 ##### 1、 理解本地仓库和远程仓库
 
