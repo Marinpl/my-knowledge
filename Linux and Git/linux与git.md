@@ -251,3 +251,17 @@ $ git rebase -i HEAD~3
 ​	tag用于版本控制，tag对应某次commit, 是一个点，是不可移动的。
 
 ​	commit用于代码改变，branch 对应一系列commit，是很多点连成的一根线，有一个HEAD 指针，是可以依靠 HEAD 指针移动的。
+
+##### 3、merge、rebase、cherry-pick区别
+
+​	**指针区别：**
+
+​	merge HEAD指针合并所选分支在这次提交的后面
+
+​	rebase 将HEAD指针合并至所选分支的后面
+
+​	**概念区别：**
+
+​	rebase多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
+
+​	merge 尽量避免两个文件都有更新时进行merge，会有冲突。
