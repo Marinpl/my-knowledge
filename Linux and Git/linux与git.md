@@ -164,7 +164,7 @@ $ git branch --merged 【or】git branch --no--merged
 
 #### 6.远程同步
 
-[fetch,remote,push,pull = fetch + merge]
+[fetch,remote,push,pull]
 
 ```bash
 # 下载远程仓库的所有变动
@@ -180,8 +180,10 @@ $ git remote -v 【or】git remote show [remote]
 $ git remote add [shortName] [url]
 
 # 获取远程仓库的变化，并与本地分支合并
+# pull 相当于 fetch + 合并(merge,rebase)远程分支在本地
 $ git pull [remote] [branch]
-#ex: git pull origin master 
+#ex1: git pull origin master === git fetch origin master; git merge origin master
+#ex2: git pull --rebase origin master === git fetch origin master; git rebase origin master
 
 # 推送到远程仓库
 # 强制推送 在push后使用 --force 参数
