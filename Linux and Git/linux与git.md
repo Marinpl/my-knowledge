@@ -57,7 +57,7 @@ git仓库拥有四个区域（工作区、暂存区、本地仓库区[HEAD指向
 
 合并命令 : merge、rebase
 
-切换命令 : checkout
+切换分支、向下复制命令 : checkout
 
 #### 1.新建git项目
 
@@ -220,7 +220,14 @@ $ git checkout -b [branch] [tag]
 
 ```bash
 # 本地撤销
-$ git reset HEAD^[~1]
+# 在reset后添加--hard/--soft 会使工作区也更新/都不更新
+$ git reset HEAD^[~1] 
+
+# 没有分支名和文件名，只使用HEAD或什么都不使用，分支指向不变，但是索引会回滚到最后一次提交，也可使用--hard
+$ git reset
+
+# 切换至当前文件，只有暂存区复制索引被更新
+$ git reset [file-name]
 
 # 多人情况下的撤销，告知他人有撤销(就是新提交一次，与撤销前完全相同)
 $ git revert HEAD^^
@@ -228,7 +235,7 @@ $ git revert HEAD^^
 
 #### 9. 其他操作
 
-[移动提交记录,]
+[移动提交记录,查看当前状态]
 
 ```bash
 # 在当前head指针下复制其他分支提交
@@ -236,11 +243,25 @@ $ git cherry-pick [other-branch-name] [other-branch-name]...
 
 # 当不知道提交记录的hash值时，使用交互式 rebase -i 
 $ git rebase -i HEAD~3
+
+# 查看状态
+$ git status
 ```
 
-
-
 #### 10.实际操作中的问题
+
+##### 0、checkout与分离HEAD
+
+​	checkout可用于切换分支，也相当于复制至提交至暂存区和工作区。
+
+​	当不指定文件名和分支名(而是一个标签、远程分支、SHA-1值或者是像*分支名~3*类似的东西)，会得到一个匿名分支，也称为分离HEAD，能很方便地在历史版本之间互相切换。
+
+​	在分离HEAD提交操作可以正常进行，但是不会更新任何已命名的分支，且此后你切换到别的分支，比如说*main*，那么这个提交节点（可能）再也不会被引用到，然后就会被丢弃掉了。
+
+```bash
+# 如果想保存这个分离状态
+$ git checkout -b [branch-name]
+```
 
 ##### 1、 理解本地仓库和远程仓库
 
@@ -262,6 +283,8 @@ $ git rebase -i HEAD~3
 
 ​	**概念区别：**
 
-​	rebase多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
+​	cherry-pick 只是复制提交，选择的节点提交了什么就提交什么。
 
-​	merge 尽量避免两个文件都有更新时进行merge，会有冲突。
+​	rebase 是线性化的自动的cherry-pick多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
+
+​	merge 其实是合并该分支基于共同祖先的更改，所以尽量避免两个文件都有更新时进行merge，会有冲突。
