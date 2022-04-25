@@ -1,8 +1,3 @@
->
->
->## **Linux基础指令**
->
-
 ## Linux
 
 ```bash
@@ -40,12 +35,13 @@ $ mkdir xxx
 $ rm -r  / rm -r xxx
 ```
 
->
->
->## git基础指令
->
+
 
 ## Git
+
+ <img alt="Relative date" src="https://img.shields.io/date/1650877521?color=green&label=Update&style=for-the-badge">
+
+本次更改 3. / 5. / 10.
 
 #### 0.基础知识
 
@@ -110,6 +106,9 @@ $ git rm [file1] [file2] ... 【or】git rm --cached [file]
 
 # 改名文件，并且将这个改名放入暂存区
 $ git mv [file-original] [file-renamed]
+
+# 特殊，有版本号的文件可以直接进行提交
+$ git checkout <commit> filename 
 ```
 
 #### 4.代码本地提交
@@ -131,7 +130,7 @@ $ git commit --amend [file1] [file2] ...
 
 ```
 
-#### 5.分支(新建，删除，切换，合并)
+#### 5.分支(新建，删除，切换，合并，移动)
 
 [branch,checkout]
 
@@ -156,10 +155,17 @@ $ git checkout -
 
 # 合并指定分支到当前分支【或】选择一个commit，合并进当前分支
 $ git merge [branch] 【or】 git cherry-pick [commit]
-$ git rebase [startpoint] [endpoint] --onto [branchName]
+
+# 使用rebase合并(HEAD指针会指向后面的分支)
+$ git rebase [start-branch] [end-branch]
+#ex1: 将test分支合并至master
+$ git rebase master test 
 
 # 查看哪些分支合并或没合并到当前分支
 $ git branch --merged 【or】git branch --no--merged
+
+# 移动分支
+$ git branch -f [branch] <commit>
 ```
 
 #### 6.远程同步
@@ -180,10 +186,12 @@ $ git remote -v 【or】git remote show [remote]
 $ git remote add [shortName] [url]
 
 # 获取远程仓库的变化，并与本地分支合并
-# pull 相当于 fetch + 合并(merge,rebase)远程分支在本地
+# pull 相当于 fetch + (merge/rebase)
 $ git pull [remote] [branch]
-#ex1: git pull origin master === git fetch origin master; git merge origin master
-#ex2: git pull --rebase origin master === git fetch origin master; git rebase origin master
+#ex1: 
+$ git pull origin master === git fetch origin master ; git merge origin master
+#ex2: 
+$ git pull --rebase origin master === git fetch origin master ; git rebase origin master
 
 # 推送到远程仓库
 # 强制推送 在push后使用 --force 参数
@@ -200,7 +208,8 @@ $ git push [remote] [local-branch]:[remote-branch]
 ```bash
 # 列出所有tag【或】新建tag在指定commit
 $ git tag 【or】git tag [tag-name] [commit]
-#ex: git tag v1.0 [commit]
+#ex: 
+$ git tag v1.0 [commit]
 
 # 删除本地tag
 $ git tag -d [tag]
@@ -254,16 +263,23 @@ $ git status
 
 ##### 0、checkout与分离HEAD
 
-​	checkout可用于切换分支，也相当于复制至提交至暂存区和工作区。
+- ​	checkout可用于切换分支.
 
-​	当不指定文件名和分支名(而是一个标签、远程分支、SHA-1值或者是像*分支名~3*类似的东西)，会得到一个匿名分支，也称为分离HEAD，能很方便地在历史版本之间互相切换。
+  ​	如切换到分支**test** :`git checkout test`
 
-​	在分离HEAD提交操作可以正常进行，但是不会更新任何已命名的分支，且此后你切换到别的分支，比如说*main*，那么这个提交节点（可能）再也不会被引用到，然后就会被丢弃掉了。
+- ​	当用于没有版本号的文件时，会将工作区的指定文件的内容恢复到暂存区的状态。
 
-```bash
-# 如果想保存这个分离状态
-$ git checkout -b [branch-name]
-```
+  ​	如：`git checkout test.txt`以及`git checkout . `
+
+- ​	当用于有版本号的文件时，表示将工作区和暂存区都恢复到版本库指定提交版本的指定文件的状态，此时HEAD指针不变，此时的   状态相当于把工作区的内容修改到指定版本的文件内容后，再把修改的内容添加到暂存区
+
+​		   如哈希值为**c0ef2**提交的**abc.txt**：`git checkout c0ef2 abc.txt`
+
+- ​	当不指定文件名和分支名(而是一个标签、远程分支、SHA-1值或者是像*分支名~3*类似的东西)，会得到一个匿名分支，也称为分离HEAD，能很方便地在历史版本之间互相切换。
+
+  - 在分离HEAD提交操作可以正常进行，但是不会更新任何已命名的分支，且此后你切换到别的分支，比如说*main*，那么这个提交节点（可能）再也不会被引用到，然后就会被丢弃掉了。
+
+    如果想要保持这个分离状态，使用`git checkout -b [branch-name]`
 
 ##### 1、 理解本地仓库和远程仓库
 
@@ -290,3 +306,20 @@ $ git checkout -b [branch-name]
 ​	rebase 是线性化的自动的cherry-pick多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
 
 ​	merge 其实是合并该分支基于共同祖先的更改，所以尽量避免两个文件都有更新时进行merge，会有冲突。
+
+​	
+
+​	rebase： 使用`rebase -i [相对引用]` 打开一个文本编辑器，可以复制操作树 并重新手动调多个文件的顺序
+
+##### 4、相对引用操作
+
+​	一般情况，我们会添加数字修改符(HEAD)，例如`git checkout master HEAD^`，即指针返回master且往上移动一次。
+
+
+
+​	如果我们直接使用，`git checkout master^`，会回到父级提交记录。
+
+​	在合并提交情况下，`"^"`代表指合并的正上方父级记录，`"^2"`代表另外一个父提交，`"~[数字]"`还是一样。
+
+​	可以使用链式操作，如`git checkout master~^2~2`
+
