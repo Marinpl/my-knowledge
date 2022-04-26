@@ -156,7 +156,7 @@ $ git checkout -
 # 合并指定分支到当前分支【或】选择一个commit，合并进当前分支
 $ git merge [branch] 【or】 git cherry-pick [commit]
 
-# 使用rebase合并(HEAD指针会指向后面的分支)
+# 使用rebase合并(合并前HEAD指针指向后面的分支)
 $ git rebase [start-branch] [end-branch]
 #ex1: 将test分支合并至master
 $ git rebase master test 
@@ -295,9 +295,9 @@ $ git status
 
 ​	**指针区别：**
 
-​	merge HEAD指针合并所选分支在这次提交的后面
+​	merge 会合并在**当前HEAD指针分支**的后面，合并分支名是所选分支，有个菱形关系。
 
-​	rebase 将HEAD指针合并至所选分支的后面
+​	rebase 会合并在**所选分支或第一个分支**的后面，合并分支名是初始分支。-----可能有两个分支
 
 ​	**概念区别：**
 
@@ -305,7 +305,7 @@ $ git status
 
 ​	rebase 是线性化的自动的cherry-pick多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
 
-​	merge 其实是合并该分支基于共同祖先的更改，所以尽量避免两个文件都有更新时进行merge，会有冲突。
+​	merge 其实是合并该分支基于共同祖先的更改 ，所以尽量避免两个文件都有更新时进行merge，会有冲突。
 
 ​	
 
