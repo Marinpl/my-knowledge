@@ -39,9 +39,9 @@ $ rm -r  / rm -r xxx
 
 ## Git
 
- <img alt="Relative date" src="https://img.shields.io/date/1650877521?color=green&label=Update&style=for-the-badge">
+ <img alt="Relative date" src="https://img.shields.io/date/1651212969?color=green&label=Update&style=for-the-badge">
 
-本次更改 3. / 5. / 10.
+本次更改 
 
 #### 0.基础知识
 
