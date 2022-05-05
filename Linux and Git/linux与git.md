@@ -39,9 +39,13 @@ $ rm -r  / rm -r xxx
 
 ## Git
 
- <img alt="Relative date" src="https://img.shields.io/date/1651212969?color=green&label=Update&style=for-the-badge">
+ <img alt="Relative date" src="https://img.shields.io/date/1651735458?color=green&label=Update&style=for-the-badge">
 
-本次更改 
+#### 本次更改重点：
+
+- rebase 与 cherry-pick区别
+- push与fetch后的一些参数
+- 完善一些模糊概念
 
 #### 0.基础知识
 
@@ -141,8 +145,14 @@ $ git branch -r/ /-a/-v
 # 查看本地分支对应的远程分支 以及版本是否提前或落后(查看一个分支的最后一次提交)
 $ git branch -vv
 
-# 新建一个分支，但依然停留在当前分支【或】切换到该分支【或】指向指定commit
+# 新建一个分支，但依然停留在当前分支【或】新建分支，切换到该分支【或】新建分支，指向指定commit
 $ git branch [branch-name] 【or】 git checkout -b [branch] 【or】 git branch [branch] [commit]
+
+# 新建分支，指向tag
+$ git checkout -b [branch] [tag]
+
+# 分支重命名
+$ git branch -m [old-branch-name] [new-branch-name] 
 
 # 删除分支【或】删除远程分支
 $ git branch -d [branch-name] 【or】git branch -dr [remote-branch]
@@ -173,17 +183,17 @@ $ git branch -f [branch] <commit>
 [fetch,remote,push,pull]
 
 ```bash
-# 下载远程仓库的所有变动
+# 下载远程仓库的所有变动，不会更新本地的非远程分支
 $ git fetch [remote]
 
 # 将远程分支更新到本地【或】将远程分支更新到本地，删除远程已删除的分支
 $ git fetch【or】git fetch -p
 
-# 显示所有远程仓库【或】某个仓库信息
+# 显示当前文件的所有远程仓库【或】某个仓库信息
 $ git remote -v 【or】git remote show [remote]
 
-# 新建远程仓库
-$ git remote add [shortName] [url]
+# 新建远程仓库连接
+$ git remote add [remote-name] [url]
 
 # 获取远程仓库的变化，并与本地分支合并
 # pull 相当于 fetch + (merge/rebase)
@@ -197,7 +207,8 @@ $ git pull --rebase origin master === git fetch origin master ; git rebase origi
 # 强制推送 在push后使用 --force 参数
 # 删除主机的分支 在push后使用使用 --delete 参数
 # 如果本地分支名与远程分支名相同，则可以只写一个，省去冒号
-$ git push [remote] [local-branch]:[remote-branch]
+# push其实分为两步，第一步是确认本地仓库中的分支名，第二步是对比远程仓库，将没有或更改的上传
+$ git push [remote] [source]:[destination]
 
 ```
 
@@ -206,7 +217,7 @@ $ git push [remote] [local-branch]:[remote-branch]
 [tag]
 
 ```bash
-# 列出所有tag【或】新建tag在指定commit
+# 列出所有tag【或】在指定commit新建tag
 $ git tag 【or】git tag [tag-name] [commit]
 #ex: 
 $ git tag v1.0 [commit]
@@ -220,9 +231,6 @@ $ git push origin :refs/tags/[tag-name]
 # 提交指定tag【或】提交所有tag
 $ git push [remote] [tag] 【or】git push [remote] --tags
 
-# 新建分支，指向tag
-$ git checkout -b [branch] [tag]
-
 ```
 
 #### 8. 撤销操作
@@ -234,7 +242,7 @@ $ git checkout -b [branch] [tag]
 # 在reset后添加--hard/--soft 会使工作区也更新/都不更新
 $ git reset HEAD^[~1] 
 
-# 没有分支名和文件名，只使用HEAD或什么都不使用，分支指向不变，但是索引会回滚到最后一次提交，也可使用--hard
+# 没有分支名和文件名，只使用HEAD或什么都不写，分支指向不变，但是索引会回滚到最后一次提交，也可使用--hard
 $ git reset
 
 # 切换至当前文件，只有暂存区复制索引被更新
@@ -303,7 +311,7 @@ $ git status
 
 ​	cherry-pick 只是复制提交，选择的节点提交了什么就提交什么。注意不要使用HEAD上游提交。
 
-​	rebase 是线性化的自动的cherry-pick多用于集成 一般用于合成master分支，尽量不要在master分支上使用rebase。
+​	rebase 是线性化的自动的cherry-pick多用于集成 一般用于合成master分支，会将其复制并移动到所选分支上，所以尽量不要在指向master分支情况上使用rebase其他分支。
 
 ​	merge 其实是合并该分支基于共同祖先的更改 ，所以尽量避免两个文件都有更新时进行merge，会有冲突。
 
