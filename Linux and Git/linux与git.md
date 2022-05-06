@@ -39,7 +39,7 @@ $ rm -r  / rm -r xxx
 
 ## Git
 
- <img alt="Relative date" src="https://img.shields.io/date/1651735458?color=green&label=Update&style=for-the-badge">
+ <img alt="Relative date" src="https://img.shields.io/date/1651828182?color=green&label=Update&style=for-the-badge">
 
 #### 本次更改重点：
 
@@ -145,7 +145,7 @@ $ git branch -r/ /-a/-v
 # 查看本地分支对应的远程分支 以及版本是否提前或落后(查看一个分支的最后一次提交)
 $ git branch -vv
 
-# 新建一个分支，但依然停留在当前分支【或】新建分支，切换到该分支【或】新建分支，指向指定commit
+# 新建一个分支，但依然停留在当前分支【或】新建分支，切换到该分支【或】新建分支，指向指定commit,但依然停留在当前分支
 $ git branch [branch-name] 【or】 git checkout -b [branch] 【or】 git branch [branch] [commit]
 
 # 新建分支，指向tag
@@ -207,7 +207,7 @@ $ git pull --rebase origin master === git fetch origin master ; git rebase origi
 # 强制推送 在push后使用 --force 参数
 # 删除主机的分支 在push后使用使用 --delete 参数
 # 如果本地分支名与远程分支名相同，则可以只写一个，省去冒号
-# push其实分为两步，第一步是确认本地仓库中的分支名，第二步是对比远程仓库，将没有或更改的上传
+# push其实分为两步，第一步是确认本地仓库中的分支名，第二步是对比远程仓库的分支名中文件，将没有或更改的上传,可以使用相对引用。
 $ git push [remote] [source]:[destination]
 
 ```
@@ -293,7 +293,7 @@ $ git status
 
 ​	即使你更改了本地文件，但你并没有提交最新版本至本地仓库，push也是原先版本。
 
-##### 2、分支与标签区别
+##### 2、分支tag与标签commit区别
 
 ​	tag用于版本控制，tag对应某次commit, 是一个点，是不可移动的。
 
@@ -303,9 +303,9 @@ $ git status
 
 ​	**指针区别：**
 
-​	merge 会合并在**当前HEAD指针分支**的后面，合并分支名是所选分支，有个菱形关系。
+​	merge 会将**所选分支**合并在**当前HEAD指针分支**的后面，合并分支名是所选分支，有个菱形关系。
 
-​	rebase 会合并在**所选分支或第一个分支**的后面，合并分支名是初始分支。-----可能有两个分支
+​	rebase 会合并在**所选分支或第一个分支**的后面，合并分支名是初始分支。
 
 ​	**概念区别：**
 
@@ -325,11 +325,19 @@ $ git status
 
 ​	一般情况，我们会添加数字修改符(HEAD)，例如`git checkout master HEAD^`，即指针返回master且往上移动一次。
 
-
-
 ​	如果我们直接使用，`git checkout master^`，会回到父级提交记录。
 
 ​	在合并提交情况下，`"^"`代表指合并的正上方父级记录，`"^2"`代表另外一个父提交，`"~[数字]"`还是一样。
 
 ​	可以使用链式操作，如`git checkout master~^2~2`
+
+##### 5、设置远程分支
+
+一般情况下本地与远程分支的关联关系就是由分支的“remote tracking”属性，**例如**本地master分支会跟踪远程仓库的master(或者说origin master)分支，使得pull或push可以进行交互。
+
+如果想要其他分支跟踪，使用下面两条指令都可以实现：
+
+`git checkout -b [branch-name] o/master`
+
+`git branch -u o/master [branch-name]`
 
