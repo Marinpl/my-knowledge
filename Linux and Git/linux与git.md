@@ -39,12 +39,12 @@ $ rm -r  / rm -r xxx
 
 ## Git
 
- <img alt="Relative date" src="https://img.shields.io/date/1651828182?color=green&label=Update&style=for-the-badge">
+ <img alt="Relative date" src="https://img.shields.io/date/1651896430?color=green&label=Update&style=for-the-badge">
 
 #### 本次更改重点：
 
 - rebase 与 cherry-pick区别
-- push与fetch后的一些参数
+- [push与fetch后的一些参数(重点)](#6.远程同步)
 - 完善一些模糊概念
 
 #### 0.基础知识
@@ -206,8 +206,8 @@ $ git pull --rebase origin master === git fetch origin master ; git rebase origi
 # 推送到远程仓库
 # 强制推送 在push后使用 --force 参数
 # 删除主机的分支 在push后使用使用 --delete 参数
-# 如果本地分支名与远程分支名相同，则可以只写一个，省去冒号
 # push其实分为两步，第一步是确认本地仓库中的分支名，第二步是对比远程仓库的分支名中文件，将没有或更改的上传,可以使用相对引用。
+# 如果本地分支名与远程分支名相同，则可以只写一个，省去冒号。且source可省略，push表示删除远程分支，fetch新建本地分支。
 $ git push [remote] [source]:[destination]
 
 ```
