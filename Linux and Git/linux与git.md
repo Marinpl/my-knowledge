@@ -1,4 +1,8 @@
-## Linux
+> 本文档不会再次更改，直到下次版本更新
+
+ <img alt="Relative date" src="https://img.shields.io/date/1652170228?color=green&label=Update&style=for-the-badge">
+
+## 学会Linux
 
 ```bash
 #清屏 
@@ -37,27 +41,23 @@ $ rm -r  / rm -r xxx
 
 
 
-## Git
-
- <img alt="Relative date" src="https://img.shields.io/date/1651896430?color=green&label=Update&style=for-the-badge">
+## 玩转Git
 
 #### 本次更改重点：
 
-- rebase 与 cherry-pick区别
-- [push与fetch后的一些参数(重点)](#6.远程同步)
-- 完善一些模糊概念
+- 改善一些模糊和错误概念
 
 #### 0.基础知识
 
-git仓库拥有四个区域（工作区、暂存区、本地仓库区[HEAD指向最新放入仓库的版本]、远程仓库区）
+git仓库拥有两块：本地与远程；四个区域：本地的工作区、暂存区、仓库区和远程仓库区
 
-上传命令 : add、commit 、push、commit -a	
+上传命令 : add、commit 、push	
 
 下载命令 : pull、fetch
 
-合并命令 : merge、rebase
+合并命令 : merge、rebase、cherry-pick
 
-切换分支、向下复制命令 : checkout
+切换分支、切换指针(更新工作区) : checkout
 
 #### 1.新建git项目
 
@@ -73,7 +73,7 @@ $ git clone [url]
 
 #### 2.查询配置
 
-[config]
+[config,status]
 
 ```bash
 # 显示当前配置
@@ -85,6 +85,9 @@ $ git config [--global]
 # 设置提交代码的用户信息
 $ git config [--global] user.name "[name]"
 $ git config [--global] user.email "[email address]"
+
+# 查看当前状态(会给相对提示)
+$ git status
 ```
 
 #### 3.添加、删除文件
@@ -110,12 +113,9 @@ $ git rm [file1] [file2] ... 【or】git rm --cached [file]
 
 # 改名文件，并且将这个改名放入暂存区
 $ git mv [file-original] [file-renamed]
-
-# 特殊，有版本号的文件可以直接进行提交
-$ git checkout <commit> filename 
 ```
 
-#### 4.代码本地提交
+#### 4.本地代码提交
 
 [commit]
 
@@ -132,6 +132,8 @@ $ git commit -v
 # 重做上一次commit，并包括指定文件的新变化
 $ git commit --amend [file1] [file2] ...
 
+# 特殊:有提交的hash值或名称的文件可以直接进行提交
+$ git checkout <commit> filename 
 ```
 
 #### 5.分支(新建，删除，切换，合并，移动)
@@ -157,6 +159,9 @@ $ git branch -m [old-branch-name] [new-branch-name]
 # 删除分支【或】删除远程分支
 $ git branch -d [branch-name] 【or】git branch -dr [remote-branch]
 
+# 移动分支
+$ git branch -f [branch] <commit>
+
 # 切换到指定分支，并更新工作区
 $ git checkout [branch-name]
 
@@ -173,9 +178,6 @@ $ git rebase master test
 
 # 查看哪些分支合并或没合并到当前分支
 $ git branch --merged 【or】git branch --no--merged
-
-# 移动分支
-$ git branch -f [branch] <commit>
 ```
 
 #### 6.远程同步
@@ -254,7 +256,7 @@ $ git revert HEAD^^
 
 #### 9. 其他操作
 
-[移动提交记录,查看当前状态]
+[移动提交记录]
 
 ```bash
 # 在当前head指针下复制其他分支提交
@@ -263,8 +265,6 @@ $ git cherry-pick [other-branch-name] [other-branch-name]...
 # 当不知道提交记录的hash值时，使用交互式 rebase -i 
 $ git rebase -i HEAD~3
 
-# 查看状态
-$ git status
 ```
 
 #### 10.实际操作中的问题
@@ -301,7 +301,7 @@ $ git status
 
 ##### 3、merge、rebase、cherry-pick区别
 
-​	**指针区别：**
+​	**功能区别：**
 
 ​	merge 会将**所选分支**合并在**当前HEAD指针分支**的后面，合并分支名是所选分支，有个菱形关系。
 
@@ -337,7 +337,7 @@ $ git status
 
 如果想要其他分支跟踪，使用下面两条指令都可以实现：
 
-`git checkout -b [branch-name] o/master`
+`git checkout -b [branch-name] [remote-branch](like 'origin master')`
 
-`git branch -u o/master [branch-name]`
+`git branch -u [remote-branch] [branch-name]`
 
