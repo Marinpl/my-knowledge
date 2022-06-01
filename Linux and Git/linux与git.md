@@ -1,6 +1,6 @@
 > 本文档不会再次更改，直到下次版本更新
 
- <img alt="Relative date" src="https://img.shields.io/date/1652170228?color=green&label=Update&style=for-the-badge">
+ <img alt="Relative date" src="https://img.shields.io/date/1654049967?color=green&label=Update&style=for-the-badge">
 
 ## 学会Linux
 
@@ -53,7 +53,7 @@ git仓库拥有两块：本地与远程；四个区域：本地的工作区、�
 
 上传命令 : add、commit 、push	
 
-下载命令 : pull、fetch
+下载命令 : pull、fetch、clone
 
 合并命令 : merge、rebase、cherry-pick
 
@@ -67,7 +67,7 @@ git仓库拥有两块：本地与远程；四个区域：本地的工作区、�
 # 本地创建或新建一个目录，初始化git库
 $ git init or git init [project-name]
 
-# 从远程仓库下载
+# 从远程仓库克隆
 $ git clone [url]
 ```
 
@@ -123,7 +123,7 @@ $ git mv [file-original] [file-renamed]
 # 提交暂存区文件【或】指定文件至仓库区  [直接commit启动文本编辑器以便输入本次提交的说明,i = insert ,ESC,:wq]
 $ git commit -m[message] 【or】 git commit [file1] [file2] ... -m[message] 
 
-# 提交工作区自上次commit之后的变化，直接到仓库区
+# 提交工作区自上次commit之后的变化，直接到本地仓库区
 $ git commit -a
 
 # 提交时显示所有diff信息
@@ -147,7 +147,7 @@ $ git branch -r/ /-a/-v
 # 查看本地分支对应的远程分支 以及版本是否提前或落后(查看一个分支的最后一次提交)
 $ git branch -vv
 
-# 新建一个分支，但依然停留在当前分支【或】新建分支，切换到该分支【或】新建分支，指向指定commit,但依然停留在当前分支
+# 新建一个分支，指针不变【或】新建分支，切换到该分支【或】新建分支，指向指定commit,指针不变
 $ git branch [branch-name] 【or】 git checkout -b [branch] 【or】 git branch [branch] [commit]
 
 # 新建分支，指向tag
@@ -171,9 +171,9 @@ $ git checkout -
 # 合并指定分支到当前分支【或】选择一个commit，合并进当前分支
 $ git merge [branch] 【or】 git cherry-pick [commit]
 
-# 使用rebase合并(合并前HEAD指针指向后面的分支)
+# 使用rebase合并(合并前指针指向后面的分支)
 $ git rebase [start-branch] [end-branch]
-#ex1: 将test分支合并至master
+#ex1: 将test分支rebase至master
 $ git rebase master test 
 
 # 查看哪些分支合并或没合并到当前分支
@@ -182,7 +182,7 @@ $ git branch --merged 【or】git branch --no--merged
 
 #### 6.远程同步
 
-[fetch,remote,push,pull]
+[fetch,pull,remote,push]
 
 ```bash
 # 下载远程仓库的所有变动，不会更新本地的非远程分支
@@ -341,3 +341,6 @@ $ git rebase -i HEAD~3
 
 `git branch -u [remote-branch] [branch-name]`
 
+#### 11.相关工具
+
+>SourceTree - 可视化git工具
