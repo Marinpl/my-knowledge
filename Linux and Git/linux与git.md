@@ -37,6 +37,25 @@ $ mkdir xxx
 
 #删除文件夹
 $ rm -r  / rm -r xxx
+
+------------------------------
+# 默认参数
+# -n/-b 添加行数编号/空白行不编号
+# -s    将多行空白行变成单行
+# -v
+# -E    在行结尾处显示 $
+# -T    将 TAB 字符显示为 ^I
+
+------------------------------
+# Grep指令,支持基础正则表达
+#ex: grep [params] ... 
+# --color
+# --v   反查
+# -n   第几行
+# -c   第几行有
+# -A/-B/-C [number]    显示后/前/前后几行
+# -i   不区分大小写
+# -l/-L
 ```
 
 
@@ -73,7 +92,7 @@ $ git clone [url]
 
 #### 2.查询配置
 
-[config,status]
+[config，status]
 
 ```bash
 # 显示当前配置
@@ -92,7 +111,7 @@ $ git status
 
 #### 3.添加、删除文件
 
-[add,rm,mv]
+[add，rm，mv]
 
 ```bash
 # 添加指定文件到暂存区
@@ -117,7 +136,7 @@ $ git mv [file-original] [file-renamed]
 
 #### 4.本地代码提交
 
-[commit]
+[commit，checkout]
 
 ```bash
 # 提交暂存区文件【或】指定文件至仓库区  [直接commit启动文本编辑器以便输入本次提交的说明,i = insert ,ESC,:wq]
@@ -138,7 +157,7 @@ $ git checkout <commit> filename
 
 #### 5.分支(新建，删除，切换，合并，移动)
 
-[branch,checkout]
+[branch，checkout]
 
 ```bash
 # 列出分支(远程分支、本地分支、本地和远程分支、最后一次提交)
@@ -182,7 +201,7 @@ $ git branch --merged 【or】git branch --no--merged
 
 #### 6.远程同步
 
-[fetch,pull,remote,push]
+[fetch，pull，remote，push]
 
 ```bash
 # 下载远程仓库的所有变动，不会更新本地的非远程分支
@@ -237,7 +256,7 @@ $ git push [remote] [tag] 【or】git push [remote] --tags
 
 #### 8. 撤销操作
 
-[reset,revert]
+[reset，revert]
 
 ```bash
 # 本地撤销
@@ -256,7 +275,7 @@ $ git revert HEAD^^
 
 #### 9. 其他操作
 
-[移动提交记录]
+[移动提交记录，查看hash值]
 
 ```bash
 # 在当前head指针下复制其他分支提交
@@ -265,6 +284,9 @@ $ git cherry-pick [other-branch-name] [other-branch-name]...
 # 当不知道提交记录的hash值时，使用交互式 rebase -i 
 $ git rebase -i HEAD~3
 
+# 查看最后一次commit提交Hash值
+$ git log -1
+$ git log -n1 --format=format:"%H"
 ```
 
 #### 10.实际操作中的问题
@@ -340,6 +362,12 @@ $ git rebase -i HEAD~3
 `git checkout -b [branch-name] [remote-branch](like 'origin master')`
 
 `git branch -u [remote-branch] [branch-name]`
+
+##### 6、了解pull-request
+
+当你想对一个仓库中的代码进行修改时，可以进行pull-request。
+
+fork --> clone --> commit --> pull request --> 仓库成员同意 --> 修改完毕
 
 #### 11.相关工具
 
