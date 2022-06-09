@@ -25,8 +25,8 @@ function sum(a: number,b: number): number{
     return a+b;
 }
 // 使用类似箭头函数表达
-let javaC: (a,b) => 1;
-let c: (a: number,b: number): number=>1;
+// java箭头函数: let javaC = (a,b) => 1;
+let c = (a: number,b: number): number=>1;
 // 等同于
 let c = function(a: number,b: number): number{
     return 1;
@@ -51,6 +51,7 @@ let c = function(a: number,b: number): number{
 | tuple   | [4,5]              | 固定长度数组                 |
 | enum    | enum{A,B}          | 枚举                         |
 | type    |                    | 简化类型别名                 |
+| this    |                    | this类型                     |
 
 ```typescript
 // 字面量声明联合类型
@@ -59,8 +60,8 @@ let a: "male" | 123;
 // 避免显示any和隐式any(不声明类型默认即为any)
 let b1: unknown;
 let b2: unknown | number;
-b = "hello"; // 成立
-b = 123 // 成立
+b2 = "hello"; // 成立
+b2 = 123 // 成立
 
 //通过类型判断或断言，无法直接通过unknown类型赋值
 let c: string;
@@ -94,9 +95,11 @@ let g :[string,string]
 // 枚举
 enum H{
     name = "老王"
+    sex = "男"
 }
-function getHName(name:H){
-    name = H.name
+function getHName(man:H){
+    man.name = H.name
+    man.sex = H.sex
 }
 ```
 
@@ -249,6 +252,10 @@ const xxx = new 类名(参数1,参数2)
 
 在方法中，使用this表示当前调用方法的对象。在实例(构造函数)方法中，this就代表当前的实例
 
+- this 参数: 限制调用函数时的 this 类型
+- this 类型: 用于支持链式调用，尤其支持 class 继承的链式调用
+- ThisType:用于构造复杂的 factory 函数
+
 >**继承 extends**
 
 类似java，通过extends继承，子类默认有父类属性，可以通过重写覆盖
@@ -281,7 +288,7 @@ dog.sayHello();   // 汪汪汪
 
 >**抽象类 abstract**
 
-通过关键字abstract，使父类无法创建对象
+通过关键字abstract，抽象类不能被实例化，只能被继承
 
 抽象方法在抽象类中抽象定义，没有方法体。在子类中具体实现
 
